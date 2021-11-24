@@ -58,3 +58,24 @@ public class OOP2 {
 
 ### Если final class то от него нельзя наследоваться
 ### Если final у метода, то его нельзя переопределять в потомках
+
+## 3
+- Класс `Phone`, метод `call`
+- Класс `SmartPhone` наследует `Phone`, переопределенный метод `call`, метод `takePhoto()`
+```java
+class Human {
+	public void callWith(Phone p) {
+		p.call();
+	}
+}
+
+SmartPhone p = new SmartPhone();
+Human h = new Human();
+h.callWith(p);
+```
+- p.call() - сработает
+- p.takePhoto() - нет
+
+### Восходящее преобразование 
+- Сужение интерфейса потомка до интерфейса родителя
+- `Phone` p = new `SmartPhone()`;
