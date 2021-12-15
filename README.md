@@ -206,5 +206,66 @@ class LandPhone implements ICall {
 	void call() {...}
 }
 ```
+<br/>
+```java
+// interface segregation principle
+// Клиенты не должны зависеть от методов, которые они не используют.
+
+//Принцип разделения интерфейсов говорит о том, что слишком «толстые» интерфейсы необходимо разделять на более маленькие и специфические, чтобы клиенты маленьких интерфейсов знали только о методах, которые необходимы им в работе. В итоге, при изменении метода интерфейса не должны меняться клиенты, которые этот метод не используют.
+
+interface Shapable {
+	public int area(); // площадь
+	public int volume(); // объем
+}
+
+class Square implements Shapable {
+	public int area() {
+		// height * width
+	}
+
+	public int volume() {
+		// нельзя найти объем у квадрата
+	}
+}
+
+class Cuboid implements Shapable {
+	public int area() {
+		// вычисление площади пов-ти
+	}
+
+	public int volume() {
+		// объем
+	}
+}
+
+// метод volume в square и есть нарушение принципа. Класс зависит
+// от метода
+
+interface IArea {
+	public int area(); // площадь
+}
+
+interface IVolume {
+	public int volume(); // объем
+}
+
+class Square implements IArea {
+	public int area() {
+		// height * width
+	}
+
+	// теперь не зависит
+}
+
+class Cuboid implements IArea, IVolume {
+	public int area() {
+		// вычисление площади пов-ти
+	}
+
+	public int volume() {
+		// объем
+	}
+}
+```
 ### 5. Принцип инверсии зависимости 
 Зависимости классов должны опираться на абстракции. Зависимости не должны опираться на конкретную реализацию. `Программируйте на уровне интерфейсов`
