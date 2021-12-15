@@ -93,24 +93,8 @@ h.callWith(p);
 поля и методы. Затем мы отдаем тестировщикам класс, они находят кучу багов, мы их фиксим, но наши изменения не попадут
 в классы Пети и Васи. А в их классах могут быть и ошибки, которые они собственноручно сделали. Правильно было написать
 два разных класса: Data и Temperature. И создать DataTemperature который наследовался от этих двух.
-![Иллюстрация](srp.png)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+</br>
+![Иллюстрация](srp.png) 
 
 ### 2. классы открыты для расширения и закрыты для модификации
 ```java
@@ -134,6 +118,58 @@ interface UserContacts {
 Скомиплированный в .class класс User (2007 год): у меня нет метода getVKURL()
 ### 3. Принцип подстановки Барбары Лисков
 Замена в коде экземляров классов на экземпляры их подклассов (наследников) не должна влиять на правильность работы программы. **По простому**: Ф-ии, которые используют ссылки на базовые, должны иметь возможность использовать объекты подклассов, не зная об этом. То есть наследник не должен сужать возможности родителя.
+```java
+import java.util.*;
+
+// Пример нарушение принципа Барбары Лисков
+
+
+abstract class Shape {
+	int height;
+	int width;
+	public abstract int square();
+}
+
+class Rectangle extends Shape {
+	
+	public void setWidth(int width) {
+		this.width = width;
+	}
+
+	public void setHeight(int height) {
+		this.height = height;
+	}
+
+	public int square() {
+		return this.height * this.width;
+	}
+}
+
+class Square extends Shape {
+	
+	public void setSide(int side) {
+		this.height = side;
+		this.width = side;
+	}
+
+	public int square() {
+		return this.height * this.height;
+	}
+}
+
+public class Liskov {
+	public static void main(String[] args) {
+		Rectangle rect = new Rectangle();
+		rect.setWidth(10);
+		rect.setHeight(4);
+		System.out.println(rect.square());
+	}
+}
+
+// из этого примера делаем вывод, что в меняя Rectangle на Square мы не добъемся
+// желаемого результата а следовательно не можем использовать квадрат как наследник
+// прямоугольника не меняя клиентский код
+```
 ### 4. Принцип разделения интерфейса
 Много интерфейсов, предназначенных для разных пользователей ( других классов ) лучше одного большого интерфейса, в который свален весь функционал.
 ```java
