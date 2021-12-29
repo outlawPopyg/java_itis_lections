@@ -253,7 +253,7 @@ class LandPhone implements ICall {
 	void call() {...}
 }
 ```
-<br/>
+
 ```java
 // interface segregation principle
 // Клиенты не должны зависеть от методов, которые они не используют.
