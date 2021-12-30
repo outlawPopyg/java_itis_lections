@@ -81,38 +81,97 @@ public static int search(int[] a, int target) {
 
 ```java
 
-    // Так плохо!
-    public static int badSum(int n) {
-        int s = 0;
-        for (int i = 1; i <= n; i++) {
-            int p = 1;
-            for (int j = 1; j <= i; j++) {
-                p *= j;
-            }
-            s += p;
-        }
-        return s;
-    }
-
-    // Так довольна таки неплохо
-    public static int sum(int n) {
-        int s = 0;
+// Так плохо!
+public static int badSum(int n) {
+    int s = 0;
+    for (int i = 1; i <= n; i++) {
         int p = 1;
-        for (int i = 1; i <= n; i++) {
-            // memoization
-            p *= i;
-            s += p;
+        for (int j = 1; j <= i; j++) {
+            p *= j;
         }
-
-        return s;
+        s += p;
     }
+    return s;
+}
+
+// Так довольна таки неплохо
+public static int sum(int n) {
+    int s = 0;
+    int p = 1;
+    for (int i = 1; i <= n; i++) {
+        // memoization
+        p *= i;
+        s += p;
+    }
+
+    return s;
+}
 ```
 
 ## Потоковая обработка (сложность по памяти)
 Потоковая обработка данных  – ситуация, когда решение в реальном времени обрабатывает данные, которые поступают также в реальном времени, в формате потока, генерируются непрерывно. В потоке сложно определить полный и целостный набор данных. Обычно компании не имеют возможности хранить такие данные в полном объёме, произвольный доступ к ним есть не всегда.
 **Пример: сумма n чисел**
 Не нужно хранить все входные данные в процессе работы (например в массиве)
-Типичная ошибка в решении:
+
+## Двумерные массивы
+Пример - таблица умножения
+```java
+int[][] multiply = new int[10][10];
+
+for (int i = 0; i < 10; i++) {
+    for (int j = 0; j < 10; j++) {
+        multiply[j][i] = (i + 1) * (j + 1);
+    }
+}
+
+for (int[] a : multiply) {
+    System.out.println(Arrays.toString(a));
+}
+```
+
+Ступенчатый массив
+```java
+int[][] a = new int[5][];
+for (int i = 0; i < 5; i++) {
+    a[i] = new int[5 - i];
+}
+
+for (int[] i : a) {
+    System.out.println(Arrays.toString(i));
+}
+```
+out: 
+[0, 0, 0, 0, 0]
+[0, 0, 0, 0]
+[0, 0, 0]
+[0, 0]
+[0]
+
+## Предикаты
+```java
+public static boolean check(int[] a) {
+    for (int j : a) {
+        if (j == 0) {
+            return true;
+        }
+    }
+    return false;
+}
+
+public static void main(String[] args) {
+    int[] a = { 1, 2, 3, 0, -1};
+    boolean flag = false;
+
+    for (int i = 0; i < a.length && !flag; i++) {
+        if (a[i] == 0) {
+            flag = true;
+        }
+    }
+
+    System.out.println(flag ? "Yes" : "No");
+
+}
+```
 
 
 
