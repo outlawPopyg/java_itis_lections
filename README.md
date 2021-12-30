@@ -45,6 +45,70 @@ while (n >= 1) {
 ```
 Дублирование абсолютно одинакового кода - решается занесением под один цикл!
 
+
+## Сложность алгоритмов
+- O(1) - const
+- O(n) - linear
+- O(n^c) - polinom, c - const
+- O(c^n) - exponentional, c - const
+- O(log n) - log
+___
+
+Бинарный поиск
+```java
+public static int search(int[] a, int target) {
+        int left = 0;
+        int right = a.length - 1;
+        int mid;
+
+        while (left <= right) {
+            mid = (right-left) / 2 + left;
+
+            if (target == a[mid]) {
+                return mid;
+            } else if (a[mid] < target) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+
+        return -1;
+    }
+```
+
+Мемоизация ( посчитать сумму факториалов - `1! + 2! + ... + n!`)
+
+```java
+
+    // Так плохо!
+    public static int badSum(int n) {
+        int s = 0;
+        for (int i = 1; i <= n; i++) {
+            int p = 1;
+            for (int j = 1; j <= i; j++) {
+                p *= j;
+            }
+            s += p;
+        }
+        return s;
+    }
+
+    // Так довольна таки неплохо
+    public static int sum(int n) {
+        int s = 0;
+        int p = 1;
+        for (int i = 1; i <= n; i++) {
+            // memoization
+            p *= i;
+            s += p;
+        }
+
+        return s;
+    }
+```
+
+
 ## 1
 ```java
 class Player {
