@@ -173,6 +173,49 @@ public static void main(String[] args) {
 }
 ```
 
+## Рекурсия
+```java
+public class Recursion {
+
+    public static int rec(int x) {
+        if (x == 1) {
+            return x;
+        }
+
+        return x + rec(x - 1);
+    }
+    /*
+    rec(5)
+    5 + rec(4)
+    5 + (4 + rec(3))
+    5 + (4 + (3 + rec(2)))
+    5 + (4 + (3 + (2 + rec(1))))
+    5 + (4 + (3 + (2 + 1)))
+    15 */
+
+    public static int tailRec(int x, int runningTotal) {
+        if (x == 0) {
+            return runningTotal;
+        }
+
+        return tailRec(x-1, runningTotal + x);
+    }
+
+//    tailRec(5, 0)
+//    tailRec(4, 5)
+//    tailRec(3, 9)
+//    tailRec(2, 12)
+//    tailRec(1, 14)
+//    tailRec(0, 15)
+//    15
+
+    public static void main(String[] args) {
+        System.out.println(rec(5)); // 15
+        System.out.println(tailRec(5, 0));
+    }
+}
+```
+
 
 
 
