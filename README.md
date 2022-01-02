@@ -216,6 +216,133 @@ public class Recursion {
 }
 ```
 
+## String
+```java
+import java.util.*;
+
+public class sumfact {
+    public static void main(String[] args) {
+        String str = "Hello world";
+        System.out.println(str.compareTo("Hello")); // 6
+
+        System.out.println(str.contains("Hello")); // true
+
+        String s1 = "Hello world";
+        String s2 = "Hello world";
+        System.out.println(s1 == s2); // true
+
+        String s3 = new String("Hello world");
+        String s4 = new String("Hello world");
+        System.out.println(s3 == s4); // false
+        System.out.println(s3.equals(s4)); // true
+    }
+}
+```
+
+## Static
+```java
+import java.util.*;
+
+public class Demo {
+
+    public void printA() {
+        System.out.println("A");
+    }
+
+    public static void main(String[] args) {
+        Demo x = new Demo();
+        x.printA();
+    }
+}
+```
+
+## Раннее и позднее связывание
+```java
+import java.util.*;
+
+public class Demo {
+    public static void main(String[] args) {
+        Insurance current = new CarInsurance();
+
+        // Позднее связывание на основе объекта
+        int premium = current.premium();
+
+        // Раннее связывание на основе класса
+        String category = current.category();
+
+        System.out.println(premium + " " + category); // 200 Insurance
+        
+    }
+}
+
+class Insurance{
+    public static final int LOW = 100;
+
+    public int premium(){
+        return LOW;
+    }
+
+    public static String category(){
+        return "Insurance";
+    }
+
+}
+
+class CarInsurance extends Insurance{
+    public static final int HIGH = 200;
+
+    public int premium(){
+        return HIGH;
+    }
+
+    public static String category(){
+        return "Car Insurance";
+    }
+
+}
+```
+Как вы видите, вызов метода `premium()` привел к выполнению метода из подкласса, в то время как вызов метода `category()` привел к выполнению метода суперкласса. Это происходит из-за того, что `premium()` – виртуальный метод, который разрешается при помощи позднего связывания, в то время как `category()` – статический метод, который разрешается при помощи статического связывания во время компиляции по имени класса.
+
+```java
+import java.util.*;
+
+class Contract {
+    public void printInfo() {
+        System.out.println("contract info");
+    }
+}
+
+class CompanyContract extends Contract {
+    public void printInfo() {
+        super.printInfo();
+        System.out.println("Company contract info");
+    }
+}
+
+class IndividualContract extends Contract {
+    public void printInfo() {
+        super.printInfo();
+        System.out.println("Individual contract info");
+    }
+}
+
+public class Demo {
+    public static void main(String[] args) {
+        Contract contracts[] = new Contract[3];
+        contracts[0] = new Contract();
+        contracts[1] = new CompanyContract();
+        contracts[2] = new IndividualContract();
+
+        for (Contract c : contracts) {
+            c.printInfo();
+        }
+    }
+}
+
+```
+
+У нас выведется 3 разные реализации метода `printInfo()`. Это происходит потому что реализация вызываемого метода в java определяется в момент выполнения программы, а не в момент компиляции (если бы было в момент компиляции, то вывелось бы 3 реализации как в классе `Contract`). У всех объектов из contracts класс `Contract`, но в момент вызова у тех объектов, которые по факту являются `CompanyContrat`, вызовется реализация как в `CompanyContrat`, у тех, кто по факту `IndividualContract` - реализация как в `IndividualContract`. Статическое связывание используется в языке Java для разрешения перегруженных методов, в то время как динамическое связывание используется в языке Java для разрешения переопределенных методов.
+
 
 
 
