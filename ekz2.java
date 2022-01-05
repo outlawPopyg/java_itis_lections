@@ -30,10 +30,7 @@ class Triangle {
             throw new Exception("Неправильный треугольник");
         }
     }
-
-
-
-
+    
     public double perimeter() {
         return a*2 + c;
     }
@@ -71,7 +68,7 @@ class TriangleUtils {
     }
 
     public static boolean twoEquals(Triangle[] triangles) {
-        for (int i = 0; i < triangles.length; i++) {
+        for (int i = 0; i < triangles.length-1; i++) {
             for (int j = i+1; j < triangles.length; j++) {
                 if (triangles[i].equals(triangles[j])) {
                     return true;
@@ -83,7 +80,7 @@ class TriangleUtils {
 }
 
 
-public class sumfact {
+public class ekz2 {
     public static void main(String[] args) {
         try {
             Triangle a = new Triangle(1, 4, 4,1,1,1);
