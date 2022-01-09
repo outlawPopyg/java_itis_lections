@@ -343,7 +343,53 @@ public class Demo {
 
 У нас выведется 3 разные реализации метода `printInfo()`. Это происходит потому что реализация вызываемого метода в java определяется в момент выполнения программы, а не в момент компиляции (если бы было в момент компиляции, то вывелось бы 3 реализации как в классе `Contract`). У всех объектов из contracts класс `Contract`, но в момент вызова у тех объектов, которые по факту являются `CompanyContrat`, вызовется реализация как в `CompanyContrat`, у тех, кто по факту `IndividualContract` - реализация как в `IndividualContract`. Статическое связывание используется в языке Java для разрешения перегруженных методов, в то время как динамическое связывание используется в языке Java для разрешения переопределенных методов.
 
+## Abstract
 
+```java
+abstract class Device {
+    private String name;
+
+    public String getName() {
+        return this.name;
+    }
+
+    abstract public void on();
+    abstract  public void off();
+    abstract public String getInfo();
+}
+
+class Phone extends Device {
+    public void on() {
+        System.out.println("On phone");
+    }
+
+    public void off() {
+        System.out.println("Off phone");
+    }
+
+    public String getInfo() {
+        return "Можно звонить";
+    }
+
+    public void makeCall() {/* ... */}
+}
+
+class Camera extends Device {
+    public void on() {
+        System.out.println("on camera");
+    }
+
+    public void off() {
+        System.out.println("off camera");
+    }
+
+    public String getInfo() {
+        return "Make photos";
+    }
+
+    public void makePhoto() {/*...*/}
+}
+```
 
 
 ## 1
@@ -618,4 +664,43 @@ class Cuboid implements IArea, IVolume {
 }
 ```
 ### 5. Принцип инверсии зависимости 
-Зависимости классов должны опираться на абстракции. Зависимости не должны опираться на конкретную реализацию. `Программируйте на уровне интерфейсов`
+```java
+class PasswordReminder {
+    private MySQLDBconnection dbConnection;
+
+    public PasswordReminder(MySQLDBconnection dbConnection) {
+        this.dbConnection = dbConnection;
+    }
+}
+```
+MySQLConnection является низкоуровневым модулем, PasswordReminder - высокоуровневый. Но в соответствии с определением принципа, гласящим разделять абстракции от реализации, этот фрагмент его нарушает, т.к. класс PasswordReminder зависит от класса MySQLConnection.
+
+Если позже изменить ядро базы данных, то прийдется менять и класс PasswordReminder, что нарушает принцип открытости / закрытости.
+Класс PasswordReminder не должен беспокоиться об используемой СУБД. Для исправления этого мы должны выделить интерфейс, чтобы низкоуровневые и высокоуровневые модули зависели от абстракции:
+
+```java
+interface DBConnectionInterface {
+     public void connect();
+}
+```
+
+Интерфейс имеет метод connect и класс MySQLConnection реализует его. Также вместо проверки типа на пренадлежность передаваемого объекта классу MySQLConnection в конструкторе PasswordReminder, мы используем проверку принадлежности интерфейсу. И класс PasswordReminder больше не беспокоится о типе СУБД, которая будет использована, главное, что есть возможность соединения и принцип OCP не нарушается.
+
+```java
+class MySQLConnection implements DBConnectionInterface {
+    public void connect() {
+        // connection ...
+    }
+}
+
+
+class PasswordReminder {
+    private DBConnectionInterface dbConnection;
+
+    public PasswordReminder(DBConnectionInterface dbConnection) {
+        this.dbConnection = dbConnection;
+    }
+}
+```
+
+Теперь оба модуля (низкоуровневый и высокоуровневый) зависят от абстракции.
